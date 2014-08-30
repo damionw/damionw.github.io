@@ -1,1 +1,258 @@
-Nothing here yet
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Damion Wilson's Blog</title>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8">
+    </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif:700' rel='stylesheet' type='text/css'>
+
+    <style type="text/css" rel="stylesheet">
+        body {
+            font-family: 'Open Sans Condensed', sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            display: table;
+            left: 0px;
+            top: 0px;
+            height: 100%;
+            padding: 12px;
+            margin: 1px;
+            background: #8b9b77;
+            box-shadow: 6px 6px 5px #888888;
+            border-radius: 1px;
+            color: white;
+            width: 100px;
+        }
+
+        .sidebar > header {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .sidebar > ul {
+            text-decoration: none;
+            display: block;
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .sidebar > ul > li {
+            cursor: pointer;
+        }
+
+        .sidebar > ul > li:hover {
+            color: yellow;
+        }
+
+        .main {
+            margin-left: 110px;
+        }
+
+        .main > div:nth-of-type(1) {
+            position: fixed;
+            top: 0;
+            left: 100;
+            width: 100%;
+            padding: 10px;
+            margin-right: 20px;
+            margin-bottom: 50px;
+            background: white;
+            background-image: url('banner.jpg');
+            border-bottom: medium thick #202020;
+        }
+
+        .main > div:nth-of-type(2) {
+            padding-top: 100px;
+        }
+
+        .main > div:nth-of-type(2) > * {
+            display: none;
+        }
+
+        /*----------------------------------------*/
+        .post-meta {
+            display: inline-block;
+            font-size: 1.4rem;
+            line-height: 1;
+            color: #9EABB3;
+        }
+
+        .post-meta a{
+            color: #9EABB3;
+            text-decoration: none;
+        }
+
+        .post-meta a:hover{
+            text-decoration:underline;
+        }
+
+        /*----------------------------------------*/
+        .blog-title {
+            margin:0;
+            font-size:2.2rem;
+            letter-spacing:1px;
+            font-weight:bold;
+            font-family: 'PT Serif', serif;
+            text-transform:uppercase;
+            color: #f0f060;
+        }
+
+        .blog-title a{
+            color: inherit;
+            text-decoration:none;
+        }
+
+        .blog-description{
+            margin:0;
+            font-size:1.5rem;
+            line-height:1em;
+            font-weight:normal;
+            color: black;
+            letter-spacing:0;
+        }
+    </style>
+
+    <style media="only screen and (max-device-width: 768px)" type="text/css">
+        .sidebar {
+            position: inherit;
+            width: inherit;
+            margin: 0;
+            padding: 25px;
+        }
+
+        .content {
+            margin: 0;
+            padding: 5px 25px;
+            width: inherit;
+        }
+    </style>
+
+    <script>
+        function raise_section(section_name) {
+            var section_tag = '#' + section_name;
+            var root = d3.select(".main").select("div:nth-of-type(2)");
+            root.selectAll("section").style("display", "none");
+            root.selectAll(section_tag).style("display", "inline");
+        }
+
+        function select_section(obj) {
+            raise_section(obj.innerHTML.toLowerCase());
+        }
+
+        function init() {
+            raise_section('blog');
+        }
+
+        init();
+    </script>
+</head>
+<body onload="init();">
+<div class="sidebar">
+    <header>
+Damion Wilson's Blog
+    </header>
+    <hr>
+    <ul>
+        <li onclick="select_section(this);">About</li>
+        <li onclick="select_section(this);">Blog</li>
+    </ul>
+</div>
+
+<div class="main">
+    <div>
+        <h1 class="blog-title">
+            <a href="about:blank">
+                Geek on a Rock
+            </a>
+        </h1>
+
+        <h2 class="blog-description">
+            Programming in Bermuda ... and other stuff
+        </h2>
+    </div>
+
+    <div>
+        <section id="blog">
+            <header class="post-header">
+            <span class="post-meta"><time datetime="2014-08-279">August 27, 2014</time></span>
+            <h2 class="post-title">Finding Paradise ?</h2>
+            </header>
+            <p>
+            Is there anywhere that could truly be called paradise ?
+            </p>
+            <p>
+            Perhaps not, but, when the sun rises after an all night coding session, or the night job
+            we had to take to service the mortgage when wages were cut, or even if it's
+            the only job we could get, we should still take a second to look outside, at that golden sun rising over the turqouise
+            water, and remember, that whatever trouble befalls us, we still can have something to
+            speak the meaning to life.
+            </p>
+            <hr>
+            <p>
+            We're starting to get our geek community to come together. The google group is
+                <a href="https://groups.google.com/forum/#!forum/open-bermuda">here</a>.
+            There have been various attempts in, for instance, the dotNet and Arduino circles,
+            and there is a robotics club as well as <a href="http://bermuda.io/">Bermuda.io</a>
+            which leans toward opening public data for analysis from a general position that all such
+            data should be open (highly admirable)
+            </p>
+            <p>
+            Open Bermuda attempts to form a general community of technological enthusiasts, where
+            sustaining such a community causes a perpetual cycle of circulating ideas and knowledge
+            transfer between people interested in such fields as Mathematics, Programming, Biology,
+            Oceanography, Public Policy, Climate Science, Electrical Engineering, Robotics ... Ok,
+            there's just too much to list, but you get the picture
+            </p>
+            <p>
+            If everyone works to keep the community at or above critical mass, then it should all work
+            as planned and we'll make not only Bermuda a better place, but the World, too
+            </p>
+        </section>
+
+        <section id="about">
+            <header class="post-header">
+            <h2 class="post-title">About Me</h2>
+            </header>
+            <p>
+            My name is Damion Wilson and I've been a programming enthusiast for a while now
+            (anyone else remember the Apple II ? Atari 800 ? Vic-20 ? I guess not).
+            </p>
+            <p>
+            I've been lucky to have been employed programming in the banking, telecoms, trading,
+            and reinsurance industries and even did some sysadmin/devops work too. Even so, I can't
+            help writing code all the time (someone should eventually stop me)
+            </p>
+            <p>
+            Right now, I'm in reinsurance working on risk systems with a group of really smart
+            characters, and have a wonderful wife and two daughters, which is about the best
+            anyone can hope for.
+            </p>
+            <p>
+            I won't bother to tell all the things I've written stuff in, but what I like to write
+            in these days are Python(Pandas, Numpy, Django), C++(Boost), C(yes, still), Erlang, and
+            SQL(PostgreSQL, SQL Server). I have a weakness for Network and Systems programming
+            which can be evidenced by the rather ancient
+            <a href="http://cipe-win32.sourceforge.net/">CIPE-Win32</a>
+            but I also have been known to do GUI work in perl with
+            evidenced by the similarly ancient
+            <a href="http://search.cpan.org/~dkwilson/Tk-DKW-0.03/">Tk-DKW</a>
+            </p>
+            <p>
+            My more recent stuff will (eventually) appear <a href="https://github.com/damionw">here</a>
+            </p>
+            <p>
+            Other interests are cycling, <a href="http://www.sanshou.bm/">martial arts</a>, cabinet carpentry and gardening
+            </p>
+        </section>
+    </div>
+</div>
+</body>
+</html>
