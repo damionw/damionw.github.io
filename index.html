@@ -148,6 +148,15 @@
             text-decoration: underline;
             color: yellow;
         }
+
+        pre {
+            background: #efefff;
+            /* opacity: 0.8; */
+            border: 0px solid black;
+            width: 80%;
+            margin-left: 20px;
+            padding-left: 10px;
+        }
     </style>
 
     <style media="only screen and (max-device-width: 768px)" type="text/css">
@@ -190,7 +199,7 @@
 Damion Wilson's Blog
     </header>
     <hr>
-    <ul class="nobullets">
+    <ul class="nobullets" id="choices">
         <li onclick="select_section(this);">About</li>
         <li onclick="select_section(this);">Blog</li>
         <li onclick="select_section(this);">Links</li>
@@ -211,6 +220,8 @@ Damion Wilson's Blog
     </div>
 
     <div>
+        </section>
+
         <section id="links">
             <ul class="nobullets linkformat">
                 <li><a href="https://groups.google.com/forum/#!forum/open-bermuda">Open Bermuda: Promoting a community of open source and open data in Bermuda</a></li>
@@ -219,43 +230,6 @@ Damion Wilson's Blog
                 <li><a href="http://deonheyns.com/">Deon Heyns blog</a></li>
                 <li><a href="http://bytesnbikes.blogspot.com/">John Gill's blog</a></li>
             </ul>
-        </section>
-
-        <section id="blog">
-            <header class="post-header">
-            <span class="post-meta"><time datetime="2014-08-279">August 27, 2014</time></span>
-            <h2 class="post-title">Finding Paradise ?</h2>
-            </header>
-            <p>
-            Is there anywhere that could truly be called paradise ?
-            </p>
-            <p>
-            Perhaps not, but, when the sun rises after an all night coding session, or the night job
-            we had to take to service the mortgage when wages were cut, or even if it's
-            the only job we could get, we should still take a second to look outside, at that golden sun rising over the turqouise
-            water, and remember, that whatever trouble befalls us, we still can have something to
-            speak the meaning to life.
-            </p>
-            <hr>
-            <p>
-            We're starting to get our geek community to come together. The google group is
-                <a href="https://groups.google.com/forum/#!forum/open-bermuda">here</a>.
-            There have been various attempts in, for instance, the dotNet and Arduino circles,
-            and there is a robotics club as well as <a href="http://bermuda.io/">Bermuda.io</a>
-            which leans toward opening public data for analysis from a general position that all such
-            data should be open (highly admirable).
-            </p>
-            <p>
-            Open Bermuda attempts to form a general community of technological enthusiasts, where
-            sustaining such a community causes a perpetual cycle of circulating ideas and knowledge
-            transfer between people interested in such fields as Mathematics, Programming, Biology,
-            Oceanography, Public Policy, Climate Science, Electrical Engineering, Robotics ... Ok,
-            there's just too much to list, but you get the picture.
-            </p>
-            <p>
-            If everyone works to keep the community at or above critical mass, then it should all work
-            as planned and we'll make not only Bermuda a better place, but the World, too.
-            </p>
         </section>
 
         <section id="about">
@@ -291,6 +265,197 @@ Damion Wilson's Blog
             </p>
             <p>
             Other interests are cycling, <a href="http://www.sanshou.bm/">martial arts</a>, cabinet carpentry and gardening
+            </p>
+        </section>
+
+        <section id="blog">
+            <a name="2014-09-01"></a>
+            <header class="post-header">
+            <span class="post-meta"><time datetime="2014-09-01">September 1, 2014</time></span>
+            <h2 class="post-title">Python Decorator Fun #1</h2>
+            </header>
+            <p>
+Given the title's attached serial number, it would seem like this would
+portend an ongoing saga of python decorators ad nauseam. However, I promise
+not to bore you to tears (well, almost)
+            </p>
+            <p>
+The intent of this post and any to follow are to demonstrate interesting
+and possibly helpful applications of decorator logic, where decorators
+themselves promise simpler, more fathomable code.
+            </p>
+            <p>
+Did you ever wish that you could access an object member like it was an
+array, but "catch" the subscript and produce a result algorithmically
+instead ?
+            </p>
+Well, have no fear. We will present an interface for just such a beast: The
+subscripted decorator.
+            <p>
+            </p>
+We can jump right to a provoking use case. Here we instantiate our demo
+object, which is pretending to "hold" a range of numbers from 5 to 11
+<pre>
+<code>
+obj = MyRangeHandler(5, 12)
+</code>
+</pre>
+
+Let's look at the simple values
+<pre>
+<code>
+print obj.values
+
+[5, 6, 7, 8, 9, 10, 11]
+</code>
+</pre>
+            <p>
+So let's get the square of the value at position 2 (7)
+<pre>
+<code>
+print obj.squares[2]
+
+49
+</code>
+</pre>
+            </p>
+            <p>
+Get it ? However, we don't have to store the square values ahead of time, we can
+compute them based on the index passed on the original values
+            </p>
+            <p>
+So, let's see how this is implemented...
+            </p>
+            <p>
+First, we'll need functools
+<pre>
+<code>
+from functools import wraps
+</code>
+</pre>
+            </p>
+
+<p>
+We'll define a function that'll produce our decorated method
+<pre>
+<code>
+def subscripted(function_reference):
+</code>
+</pre>
+            <p>
+This needs to return a wrapped inner function...
+<pre>
+<code>
+    @wraps(function_reference)
+    def wrapper(obj, *args, **kwargs):
+</code>
+</pre>
+            </p>
+            <p>
+Inside that, we define a class whose sole purpose is to implement
+the subscripting protocol's lookup method __getitem__()
+<pre>
+<code>
+        class subscripter(object):
+            def __getitem__(self, key):
+                return function_reference(obj, key)
+</code>
+</pre>
+            </p>
+            <p>
+Notice that all it does is call the original object method with the
+lookup key that the wrapper caller provided. Now we tell the wrapper to return
+an instance of the newly defined class, which has captured the outer
+object's reference.
+<pre>
+<code>
+        return subscripter()
+</code>
+</pre>
+            </p>
+            <p>
+And, we have the decorator method return the wrapper as a property of
+of the enclosing object, so it will fetch a new subscripter object
+whenever we use the . accessor on the decorated method name.
+<pre>
+<code>
+    return property(wrapper)
+</code>
+</pre>
+
+<p>
+Now, we can create our MyRangeHandler class
+<pre>
+<code>
+class MyRangeHandler(object):
+    def __init__(self, start, finish):
+        self.values = range(start, finish, 1)
+</code>
+</pre>
+</p>
+
+<p>
+And let's implement the squared attribute...
+<pre>
+<code>
+    @subscripted
+    def squared(self, index):
+        return self.values[index] ** 2
+</code>
+</pre>
+</p>
+
+<p>
+    And that's it. This use case can obviously be handled using
+normal function-style decomposition or simply storing all computable
+values. But, there may be cases where subscript lookup is more "natural"
+and precomputation is too expensive.
+</p>
+
+<p>
+This example doesn't allow for fetching all of the square values, however,
+since the subscripter class doesn't support slicing, and isn't a "proper"
+standin for a list object in any case.
+</p>
+
+<p>
+Hope you found that useful !
+</p>
+<hr>
+            <a name="2014-08-27"></a>
+            <header class="post-header">
+            <span class="post-meta"><time datetime="2014-08-27">August 27, 2014</time></span>
+            <h2 class="post-title">Finding Paradise ?</h2>
+            </header>
+            <p>
+            Is there anywhere that could truly be called paradise ?
+            </p>
+            <p>
+            Perhaps not, but, when the sun rises after an all night coding session, or the night job
+            we had to take to service the mortgage when wages were cut, or even if it's
+            the only job we could get, we should still take a second to look outside, at that golden sun rising over the turqouise
+            water, and remember, that whatever trouble befalls us, we still can have something to
+            speak the meaning to life.
+            </p>
+            <hr>
+            <p>
+            We're starting to get our geek community to come together. The google group is
+                <a href="https://groups.google.com/forum/#!forum/open-bermuda">here</a>.
+            There have been various attempts in, for instance, the dotNet and Arduino circles,
+            and there is a robotics club as well as <a href="http://bermuda.io/">Bermuda.io</a>
+            which leans toward opening public data for analysis from a general position that all such
+            data should be open (highly admirable).
+            </p>
+            <p>
+            Open Bermuda attempts to form a general community of technological enthusiasts, where
+            sustaining such a community causes a perpetual cycle of circulating ideas and knowledge
+            transfer between people interested in such fields as Mathematics, Programming, Biology,
+            Oceanography, Public Policy, Climate Science, Electrical Engineering, Robotics ... Ok,
+            there's just too much to list, but you get the picture.
+            </p>
+            <p>
+            If everyone works to keep the community at or above critical mass, then it should all work
+            as planned and we'll make not only Bermuda a better place, but the World, too.
             </p>
         </section>
     </div>
