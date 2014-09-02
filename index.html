@@ -4,7 +4,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Damion Wilson's Blog</title>
 
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8">
+    <script src="d3.min.js" charset="utf-8">
+    </script>
+
+    <script>
+        if (typeof d3 == 'undefined') {
+            document.write(
+                unescape(
+                    '%3Cscript src="http://d3js.org/d3.v3.min.js"%3E%3C/script%3E'
+                )
+            )
+        }
     </script>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
@@ -47,11 +57,20 @@
             list-style-type: none;
         }
 
-        .sidebar > ul > li {
+        .nobullets > li {
             cursor: pointer;
         }
 
-        .sidebar > ul > li:hover {
+        .nobullets > li:hover {
+            color: yellow;
+        }
+
+        .nobullets > li > a {
+            text-decoration: none;
+        }
+
+        .nobullets > li > a:active,
+        .nobullets > li > a:hover {
             color: yellow;
         }
 
@@ -149,6 +168,19 @@
             color: yellow;
         }
 
+        .jumpto {
+            position: absolute;
+            margin-top: -120px;
+        }
+
+        #archive {
+            text-indent: 10px;
+            padding-top: 5px;
+        }
+
+        #archive > li {
+        }
+
         pre {
             background: #efefff;
             /* opacity: 0.8; */
@@ -187,22 +219,61 @@
         }
 
         function init() {
-            raise_section('blog');
-        }
+            var section_names = d3
+                .select(".main")
+                .select("div:nth-of-type(2)")
+                .selectAll("section")[0]
+                .map(
+                    function(_selection) {
+                        return _selection.id;
+                    }
+                )
+            ;
 
-        init();
+            d3
+                .select("#choices")
+                .selectAll("li")
+                .data(section_names)
+                .enter()
+                    .append("li")
+                    .attr("onclick", function(d) {return "raise_section('" + d + "');";})
+                    .text(function(d) { return d;})
+            ;
+
+            var blog_names = d3.selectAll(".jumpto")[0].map(
+                function(_selection) {
+                    return _selection.name;
+                }
+            );
+
+            d3
+                .select("#archive")
+                .selectAll("li")
+                .data(blog_names)
+                .enter()
+                    .append("li")
+                    .append("a")
+                    .attr("href", function(d) {return "#" + d;})
+                    .attr("onclick", "raise_section('Blog');")
+                    .text(function(d) { return d;})
+            ;
+
+            raise_section('Blog');
+        }
     </script>
 </head>
 <body onload="init();">
 <div class="sidebar">
     <header>
-Damion Wilson's Blog
+        Damion Wilson's Blog
     </header>
     <hr>
     <ul class="nobullets" id="choices">
-        <li onclick="select_section(this);">About</li>
-        <li onclick="select_section(this);">Blog</li>
-        <li onclick="select_section(this);">Links</li>
+    </ul>
+
+    <hr>
+    Archives
+    <ul class="nobullets" id="archive">
     </ul>
 </div>
 
@@ -220,9 +291,7 @@ Damion Wilson's Blog
     </div>
 
     <div>
-        </section>
-
-        <section id="links">
+        <section id="Links">
             <ul class="nobullets linkformat">
                 <li><a href="https://groups.google.com/forum/#!forum/open-bermuda">Open Bermuda: Promoting a community of open source and open data in Bermuda</a></li>
                 <li><a href="http://bermuda.io/">Bermuda.io: Open Data and Analysis Community</a></li>
@@ -232,7 +301,7 @@ Damion Wilson's Blog
             </ul>
         </section>
 
-        <section id="about">
+        <section id="About">
             <header class="post-header">
             <h2 class="post-title">About Me</h2>
             </header>
@@ -268,8 +337,8 @@ Damion Wilson's Blog
             </p>
         </section>
 
-        <section id="blog">
-            <a name="2014-09-01"></a>
+        <section id="Blog">
+            <p><a class="jumpto" name="2014-09-01"></a></p>
             <header class="post-header">
             <span class="post-meta"><time datetime="2014-09-01">September 1, 2014</time></span>
             <h2 class="post-title">Python Decorator Fun #1</h2>
@@ -422,7 +491,7 @@ standin for a list object in any case.
 Hope you found that useful !
 </p>
 <hr>
-            <a name="2014-08-27"></a>
+            <p><a class="jumpto" name="2014-08-27"></a></p>
             <header class="post-header">
             <span class="post-meta"><time datetime="2014-08-27">August 27, 2014</time></span>
             <h2 class="post-title">Finding Paradise ?</h2>
