@@ -1,0 +1,33 @@
+<header class="post-header">
+<h2 class="post-title">About Me</h2>
+</header>
+<p>
+My name is Damion Wilson and I've been a programming enthusiast for a while now
+(anyone else remember the Apple II ? Atari 800 ? Vic-20 ? I guess not).
+</p>
+<p>
+I've been lucky to have been employed programming in the banking, telecoms, trading,
+and reinsurance industries and even did some sysadmin/devops work too. Even so, I can't
+help writing code all the time (someone should eventually stop me).
+</p>
+<p>
+Right now, I'm in reinsurance working on risk systems with a group of really smart
+characters, and have a wonderful wife and two daughters, which is about the best
+anyone can hope for.
+</p>
+<p>
+I won't bother to tell all the things I've written stuff in, but what I like to write
+in these days are Python(Pandas, Numpy, Django), C++(Boost), C(yes, still), Erlang, and
+SQL(PostgreSQL, SQL Server). I have a weakness for Network and Systems programming
+which can be evidenced by the rather ancient
+<a href="http://cipe-win32.sourceforge.net/">CIPE-Win32</a>
+but I also have been known to do GUI work in perl with
+evidenced by the similarly ancient
+<a href="http://search.cpan.org/~dkwilson/Tk-DKW-0.03/">Tk-DKW</a>.
+</p>
+<p>
+My more recent stuff will (eventually) appear <a href="https://github.com/damionw">here</a>
+</p>
+<p>
+Other interests are cycling, <a href="http://www.sanshou.bm/">martial arts</a>, cabinet carpentry and gardening
+</p>

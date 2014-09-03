@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+
+fetch_content() {
+    for name in "$@"
+    do
+        cat "${name}.content"
+    done
+}
+
+format_blog_contents() {
+    find . -name '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_blog.m4' -printf "%f %f\n" |
+    sed -e 's/[\_][^\ ]*/ /1' |
+    sort -nr |
+    while read date filename
+    do
+        if [ -n "${iso_date}" ]
+        then
+            echo "<hr>"
+        fi
+
+        iso_date=$(date --date=${date} '+%Y-%m-%d')
+        long_date=$(date --date=${date} '+%B %d, %Y')
+
+        m4 \
+            -DISO_DATE="${iso_date}" \
+            -DLONG_DATE="${long_date}" \
+            < "${filename}"
+    done
+}
+
+m4 \
+    -DABOUT_CONTENTS="$(fetch_content about)" \
+    -DLINK_CONTENTS="$(fetch_content links)" \
+    -DBLOG_CONTENTS="$(format_blog_contents)" \
+    < "index.m4"
