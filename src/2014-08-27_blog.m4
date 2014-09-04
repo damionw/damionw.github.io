@@ -1,8 +1,17 @@
-<p><a class="jumpto" name="ISO_DATE"></a></p>
+<section id="ISO_DATE" class="blog-entry">
+
+<a class="jumpto" name="ISO_DATE"></a>
+
 <header class="post-header">
-<span class="post-meta"><time datetime="ISO_DATE">LONG_DATE</time></span>
-<h2 class="post-title">Finding Paradise ?</h2>
+    <span class="post-meta">
+        <time datetime="ISO_DATE">
+            LONG_DATE
+        </time>
+    </span>
+
+    <h2 class="post-title">Finding Paradise ?</h2>
 </header>
+
 <p>
 Is there anywhere that could truly be called paradise ?
 </p>
@@ -33,3 +42,4 @@ there's just too much to list, but you get the picture.
 If everyone works to keep the community at or above critical mass, then it should all work
 as planned and we'll make not only Bermuda a better place, but the World, too.
 </p>
+</section>

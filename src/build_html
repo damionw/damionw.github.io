@@ -13,11 +13,6 @@ format_blog_contents() {
     sort -nr |
     while read date filename
     do
-        if [ -n "${iso_date}" ]
-        then
-            echo "<hr>"
-        fi
-
         iso_date=$(date --date=${date} '+%Y-%m-%d')
         long_date=$(date --date=${date} '+%B %d, %Y')
 
@@ -31,5 +26,6 @@ format_blog_contents() {
 m4 \
     -DABOUT_CONTENTS="$(fetch_content about)" \
     -DLINK_CONTENTS="$(fetch_content links)" \
+    -DCOMMENT_CONTENTS="$(fetch_content comments)" \
     -DBLOG_CONTENTS="$(format_blog_contents)" \
     < "index.m4"

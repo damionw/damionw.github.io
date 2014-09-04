@@ -1,6 +1,6 @@
-<p>
-    <a class="jumpto" name="ISO_DATE"></a>
-</p>
+<section id="ISO_DATE" class="blog-entry">
+
+<a class="jumpto" name="ISO_DATE"></a>
 
 <header class="post-header">
     <span class="post-meta">
@@ -14,3 +14,5 @@
 <p>
     Some text here
 </p>
+
+</section>

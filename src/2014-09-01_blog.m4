@@ -1,8 +1,17 @@
-            <p><a class="jumpto" name="ISO_DATE"></a></p>
-            <header class="post-header">
-            <span class="post-meta"><time datetime="ISO_DATE">LONG_DATE</time></span>
-            <h2 class="post-title">Python Decorator Fun #1</h2>
-            </header>
+<section id="ISO_DATE" class="blog-entry">
+
+<a class="jumpto" name="ISO_DATE"></a>
+
+<header class="post-header">
+    <span class="post-meta">
+        <time datetime="ISO_DATE">
+            LONG_DATE
+        </time>
+    </span>
+
+    <h2 class="post-title">Python Decorator Fun #1</h2>
+</header>
+
             <p>
 Given the title's attached serial number, it would seem like this would
 portend an ongoing saga of python decorators ad nauseam. However, I promise
@@ -150,3 +159,4 @@ standin for a list object in any case.
 <p>
 Hope you found that useful !
 </p>
+</section>
