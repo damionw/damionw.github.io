@@ -335,32 +335,13 @@
         <section id="Links">
             LINK_CONTENTS
         </section>
+
+        <section id="Comments">
+            COMMENT_CONTENTS
+        </section>
+
         BLOG_CONTENTS
     </div>
 </div>
-<div id="disqus_thread">
-    <p style="color:black;"></p>
-</div>
-<script type="text/javascript">
-    var disqus_shortname = "dkwbda";
-//     var disqus_identifier = "1235";
-//     var disqus_title = "LONG_DATE";
-//     var disqus_url = "http://damionw.github.io/index.html#ISO_DATE";
-    var disqus_category_id = "3249338";
-
-    (function() {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>
-    Please enable JavaScript to view the
-    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
-
 </body>
 </html>
