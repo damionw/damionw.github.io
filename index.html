@@ -207,20 +207,67 @@
     </style>
 
     <script>
+        var disqus_shortname = 'dkwbda';
+        var disqus_title; // = "LONG_DATE";
+        var disqus_identifier; // = "ISO_DATE";
+        var disqus_url;
+
+        function loadDisqus(source, identifier, url) {
+            if (window.DISQUS) {
+                disqus_identifier = identifier; //set the identifier argument
+                disqus_url = url; //set the permalink argument
+
+                // Move the thread placeholder to the new location
+                source.parentNode.appendChild(
+                    document.getElementById('disqus_thread')
+                );
+
+                var parameters = {
+                    reload: true,
+
+                    config: function () {
+                        this.page.identifier = identifier;
+                        this.page.url = url;
+                    }
+                };
+
+                console.log("RESET " + identifier + ", " + url);
+
+                DISQUS.reset(parameters);
+            }
+            else {
+                //insert a wrapper in HTML after the relevant "show comments" link
+                source.insertAdjacentHTML('beforeend', '<div id="disqus_thread"></div>');
+                disqus_identifier = identifier; //set the identifier argument
+                disqus_url = url; //set the permalink argument
+
+                //append the Disqus embed script to HTML
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            }
+        }
+
         function raise_section(section_name) {
-            var section_tag = '#' + section_name;
+            d3
+                .select(".main")
+                .select("div:nth-of-type(2)")
+                .selectAll("section")
+                .style("display", "none")
+            ;
 
-            var root = d3.select(".main").select("div:nth-of-type(2)");
-            root.selectAll("section").style("display", "none");
+            var section_obj = document.getElementById(section_name);
 
-            try {
-                root.selectAll(section_tag).style("display", "inline");
-            }
-            catch(error) {
-                // If the section tag selection fails, then do it the old way
-                var section_obj = document.getElementById(section_name);
-                section_obj.style.display = "inline";
-            }
+            loadDisqus(
+                section_obj,
+                section_obj.id,
+                document.URL + '#' + section_name
+            );
+
+            section_obj.style.display = "inline";
         }
 
         function init() {
@@ -365,49 +412,17 @@ Other interests are cycling, <a href="http://www.sanshou.bm/">martial arts</a>, 
         </section>
 
         <section id="Links">
-            <ul class="nobullets linkformat">
+            <header class="post-header">
+<h2 class="post-title">Links</h2>
+</header>
+
+<ul class="nobullets linkformat">
     <li><a href="https://groups.google.com/forum/#!forum/open-bermuda">Open Bermuda: Promoting a community of open source and open data in Bermuda</a></li>
     <li><a href="http://bermuda.io/">Bermuda.io: Open Data and Analysis Community</a></li>
     <li><a href="https://github.com/damionw">My GitHub Repos</a></li>
     <li><a href="http://deonheyns.com/">Deon Heyns blog</a></li>
     <li><a href="http://bytesnbikes.blogspot.com/">John Gill's blog</a></li>
 </ul>
-        </section>
-
-        <section id="Comments">
-            <header class="post-header">
-<h2 class="post-title">Comments</h2>
-</header>
-
-<div id="disqus_thread">
-    <p style="color:black;"></p>
-</div>
-<script type="text/javascript">
-    var disqus_shortname = "dkwbda";
-//     var disqus_identifier = "1235";
-//     var disqus_title = "LONG_DATE";
-//     var disqus_url = "http://damionw.github.io/index.html#ISO_DATE";
-    var disqus_category_id = "3249338";
-
-    (function() {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>
-    Please enable JavaScript to view the
-    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
-
-
-<!--<a href="http://disqus.com" class="dsq-brlink">
-    blog comments powered by
-    <span class="logo-disqus">Disqus</span>
-</a>-->
         </section>
 
         <section id="2014-09-01" class="blog-entry">

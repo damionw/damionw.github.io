@@ -207,20 +207,67 @@
     </style>
 
     <script>
+        var disqus_shortname = 'dkwbda';
+        var disqus_title; // = "LONG_DATE";
+        var disqus_identifier; // = "ISO_DATE";
+        var disqus_url;
+
+        function loadDisqus(source, identifier, url) {
+            if (window.DISQUS) {
+                disqus_identifier = identifier; //set the identifier argument
+                disqus_url = url; //set the permalink argument
+
+                // Move the thread placeholder to the new location
+                source.parentNode.appendChild(
+                    document.getElementById('disqus_thread')
+                );
+
+                var parameters = {
+                    reload: true,
+
+                    config: function () {
+                        this.page.identifier = identifier;
+                        this.page.url = url;
+                    }
+                };
+
+                console.log("RESET " + identifier + ", " + url);
+
+                DISQUS.reset(parameters);
+            }
+            else {
+                //insert a wrapper in HTML after the relevant "show comments" link
+                source.insertAdjacentHTML('beforeend', '<div id="disqus_thread"></div>');
+                disqus_identifier = identifier; //set the identifier argument
+                disqus_url = url; //set the permalink argument
+
+                //append the Disqus embed script to HTML
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            }
+        }
+
         function raise_section(section_name) {
-            var section_tag = '#' + section_name;
+            d3
+                .select(".main")
+                .select("div:nth-of-type(2)")
+                .selectAll("section")
+                .style("display", "none")
+            ;
 
-            var root = d3.select(".main").select("div:nth-of-type(2)");
-            root.selectAll("section").style("display", "none");
+            var section_obj = document.getElementById(section_name);
 
-            try {
-                root.selectAll(section_tag).style("display", "inline");
-            }
-            catch(error) {
-                // If the section tag selection fails, then do it the old way
-                var section_obj = document.getElementById(section_name);
-                section_obj.style.display = "inline";
-            }
+            loadDisqus(
+                section_obj,
+                section_obj.id,
+                document.URL + '#' + section_name
+            );
+
+            section_obj.style.display = "inline";
         }
 
         function init() {
@@ -334,10 +381,6 @@
 
         <section id="Links">
             LINK_CONTENTS
-        </section>
-
-        <section id="Comments">
-            COMMENT_CONTENTS
         </section>
 
         BLOG_CONTENTS
