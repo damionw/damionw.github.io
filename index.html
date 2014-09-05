@@ -210,44 +210,54 @@
         var disqus_shortname = 'dkwbda';
         var disqus_title; // = "LONG_DATE";
         var disqus_identifier; // = "ISO_DATE";
+        var disqus_category_id = "3249338";
         var disqus_url;
 
-        function loadDisqus(source, identifier, url) {
-            if (window.DISQUS) {
-                disqus_identifier = identifier; //set the identifier argument
-                disqus_url = url; //set the permalink argument
+        var disqus_config = function () {
+            this.language = "en";
+        };
 
+        function loadDisqus(source, identifier, url) {
+            var disqus_thread = document.getElementById('disqus_thread');
+
+            if (disqus_thread == null) {
+                source.insertAdjacentHTML('beforeend', '<div id="disqus_thread"></div>');
+                disqus_thread = document.getElementById('disqus_thread');
+            }
+
+            disqus_identifier = identifier.toString(); //set the identifier argument
+            disqus_url = url.toString(); //set the permalink argument
+
+            if (window.DISQUS) {
                 // Move the thread placeholder to the new location
-                source.parentNode.appendChild(
-                    document.getElementById('disqus_thread')
-                );
+                source.parentNode.appendChild(disqus_thread);
 
                 var parameters = {
                     reload: true,
 
                     config: function () {
-                        this.page.identifier = identifier;
-                        this.page.url = url;
+                        this.page.identifier = disqus_identifier;
+                        this.page.url = disqus_url;
                     }
                 };
-
-                console.log("RESET " + identifier + ", " + url);
 
                 DISQUS.reset(parameters);
             }
             else {
-                //insert a wrapper in HTML after the relevant "show comments" link
-                source.insertAdjacentHTML('beforeend', '<div id="disqus_thread"></div>');
-                disqus_identifier = identifier; //set the identifier argument
-                disqus_url = url; //set the permalink argument
+                var script_holder = (
+                    document.getElementsByTagName('head')[0] ||
+                    document.getElementsByTagName('body')[0]
+                );
 
                 //append the Disqus embed script to HTML
                 var dsq = document.createElement('script');
+
+                dsq.id = 'disqus_embed';
                 dsq.type = 'text/javascript';
                 dsq.async = true;
                 dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                script_holder.appendChild(dsq);
             }
         }
 
@@ -264,7 +274,8 @@
             loadDisqus(
                 section_obj,
                 section_obj.id,
-                document.URL + '#' + section_name
+                'http://damionw.github.io/' + section_name
+//                 document.URL + '#!' + section_name
             );
 
             section_obj.style.display = "inline";
