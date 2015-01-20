@@ -300,6 +300,17 @@ current call attempt
             instance_parameters.update(kwargs)
 </code>
 </pre>
+We're careful to exclude cases where there are keyword arguments that don't
+match or not all of the provided parameters are assigned to named arguments
+<pre>
+<code>
+            if len(instance_parameters) < len(args):
+                continue
+            elif set(kwargs.keys()).difference(instance_parameters.keys()):
+                continue
+
+</pre>
+</code>
 Now, prepare a dictionary representing the signature of the current function
 using the types of the parameters that were passed
 <pre>
@@ -352,6 +363,36 @@ def myfunction(a):
 </code>
 </pre>
 is possible
+</p>
+<p>
+We can even simulate the Erlang cascading call
+<pre>
+<code>
+@prototype(name=str)
+def start_service(name):
+    print "Calling start service with %s and %s" % (name, [])
+    return start_service(name, [])
+
+@prototype(name=str, args=list)
+def start_service(name, args):
+    print "Calling start service as tag %s with %s and %s" % (name, name, args)
+    return start_service(name, name, args)
+
+@prototype(service_tag=str, name=str, args=list)
+def start_service(service_tag, name, args):
+    print "Starting service as %s with module %s and parameters %s" % (service_tag, name, args)
+</code>
+</pre>
+On execution, this yields
+<pre>
+<code>
+>>> start_service("fred")
+
+Calling start service with fred and []
+Calling start service as tag fred with fred and []
+Starting service as fred with module fred and parameters []
+</code>
+</pre>
 </p>
 <p>
 I'm certain that there are ways to improve the (probably slow) function lookup method,

@@ -17,6 +17,7 @@ format_blog_contents() {
         long_date=$(date --date=${date} '+%B %d, %Y')
 
         m4 \
+            --prefix-builtins \
             -DISO_DATE="${iso_date}" \
             -DLONG_DATE="${long_date}" \
             < "${filename}"
@@ -24,6 +25,7 @@ format_blog_contents() {
 }
 
 m4 \
+    --prefix-builtins \
     -DABOUT_CONTENTS="$(fetch_content about)" \
     -DLINK_CONTENTS="$(fetch_content links)" \
     -DCOMMENT_CONTENTS="$(fetch_content comments)" \
