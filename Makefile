@@ -1,9 +1,12 @@
-today_file := $(shell echo $$(date '+%Y-%m-%d')_blog.m4)
+TODAYS_FILE := src/$(shell echo $$(date '+%Y-%m-%d')_blog.m4)
 
 all:
 	@(cd src && ./build_html) > index.html
 
-new: new_content all
+latest:
+	@find src/[123][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*.m4 -printf "%f\n" | awk -F_ '{print $$1, $$0;}' | sort -r | head -1 | sed -e 's/^[^ ][^ ]*[ ]*//g'
 
-new_content:
-	@(cd src && test -f $(today_file) && echo $(today_file) already exists || cp new_entry.m4 $(today_file))
+today: $(TODAYS_FILE) latest
+
+$(TODAYS_FILE):
+	@cp src/new_entry.m4 $@
