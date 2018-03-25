@@ -20,7 +20,7 @@ format_blog_contents() {
             --prefix-builtins \
             -DISO_DATE="${iso_date}" \
             -DLONG_DATE="${long_date}" \
-            < "${filename}"
+            < "${filename}""
     done
 }
 
