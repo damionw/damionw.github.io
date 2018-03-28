@@ -175,11 +175,11 @@ Note the difference in declaration styles.
 </code>
 </pre>
 
->p>
+<p>
 Then, let's loop through them, looking for entries of the form <identifier>=<value>. Those'll
 be the keyword args, anything else is positional. We have to split the keywords from their values
 so we can store them in the 
->/p>
+</p>
 
 <pre>
 <code>
@@ -197,10 +197,10 @@ so we can store them in the
 </code>
 </pre>
 
->p>
+<p>
 Then, since we're using eval, we just print out the bash source
 required to create the kwargs in the target scope
->/p>
+</p>
 
 <pre>
 <code>
@@ -213,9 +213,9 @@ required to create the kwargs in the target scope
 </code>
 </pre>
 
->p>
+<p>
 And, likewise, the source required to create the positional args in the target scope
->/p>
+</p>
 
 <pre>
 <code>
@@ -228,10 +228,10 @@ And, likewise, the source required to create the positional args in the target s
 </code>
 </pre>
 
->p>
+<p>
 That's it! Once eval'ed, the calling function will have the kwargs and args arrays
 defined locally
->/p>
+</p>
 
 <p>
 You can see the full implementation here: https://github.com/damionw/bashLib/blob/master/src/lib/bashLib-0.12/arguments
