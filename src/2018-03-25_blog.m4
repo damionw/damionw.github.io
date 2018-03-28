@@ -163,7 +163,7 @@ argument_formatter() {
 }
 </code>
 </pre>
->p>
+<p>
 Inside, we first create separate arrays to hold the keyword and the
 positional arguments as we parse them from the parameter list.
 Note the difference in declaration styles.
