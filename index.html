@@ -613,7 +613,7 @@ argument_formatter() {
 <p>
 Inside, we first create separate arrays to hold the keyword and the
 positional arguments as we parse them from the parameter list.
-Note the difference in declaration styles.
+Note the difference in declaration styles for the associative vs indexed arrays.
 </p>
 <pre>
 <code>
@@ -623,9 +623,9 @@ Note the difference in declaration styles.
 </pre>
 
 <p>
-Then, let's loop through them, looking for entries of the form <identifier>=<value>. Those'll
+Then, let's loop through them, looking for entries of the form &ltidentifier&gt=&ltvalue&gt. Those'll
 be the keyword args, anything else is positional. We have to split the keywords from their values
-so we can store them in the 
+so we can store them in the associative array
 </p>
 
 <pre>
@@ -681,8 +681,8 @@ defined locally
 </p>
 
 <p>
-You can see the full implementation here: https://github.com/damionw/bashLib/blob/master/src/lib/bashLib-0.12/arguments
-or clone https://github.com/damionw/bashLib and try it out from there.
+You can see the full implementation here: <a href=https://github.com/damionw/bashLib/blob/master/src/lib/bashLib-0.12/arguments>https://github.com/damionw/bashLib/blob/master/src/lib/bashLib-0.12/arguments</a>
+or clone <a href=https://github.com/damionw/bashLib>https://github.com/damionw/bashLib</a> and try it out from there.
 </p>
 <p>
 I hope that was informative !
