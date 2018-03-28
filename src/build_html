@@ -20,7 +20,7 @@ format_blog_contents() {
             --prefix-builtins \
             -DISO_DATE="${iso_date}" \
             -DLONG_DATE="${long_date}" \
-            < "${filename}""
+            < "${filename}" | sed -e 's/[\$]/__DOLLAR__/g' # Get around m4 interpretation of $[0-9] arguments
     done
 }
 
@@ -30,4 +30,6 @@ m4 \
     -DLINK_CONTENTS="$(fetch_content links)" \
     -DCOMMENT_CONTENTS="$(fetch_content comments)" \
     -DBLOG_CONTENTS="$(format_blog_contents)" \
-    < "index.m4"
+    < "index.m4" |
+sed -e 's/__DOLLAR__/$/g'
+

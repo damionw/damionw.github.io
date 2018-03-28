@@ -64,7 +64,7 @@ are given the respective values 1 and 2
 </p>
 
 <header class="post-header">
-    <h3>BASH Implementation</h3>
+    <h3>BASH Use Case</h3>
 </header>
 <p>
 So, what would this look like in BASH?
@@ -153,8 +153,91 @@ $ echo $two
     <h3>Implementation</h3>
 </header>
 <p>
+But, how do we implement this feature. Glad you asked. Here, we're calling our function
+this
+</p>
 <pre>
 <code>
+argument_formatter() {
+...
+}
 </code>
 </pre>
+>p>
+Inside, we first create separate arrays to hold the keyword and the
+positional arguments as we parse them from the parameter list.
+Note the difference in declaration styles.
+</p>
+<pre>
+<code>
+    local -A _keyword_args=()
+    local -a _positional_args=()
+</code>
+</pre>
+
+>p>
+Then, let's loop through them, looking for entries of the form <identifier>=<value>. Those'll
+be the keyword args, anything else is positional. We have to split the keywords from their values
+so we can store them in the 
+>/p>
+
+<pre>
+<code>
+    for _parameter in "$@"
+    do
+        if (echo "${_parameter}" | grep -q '^[[:alpha:]][[:alnum:]]*[=]')
+        then
+            _key="$(echo "${_parameter}" | sed -e 's/=.*$//g')"
+            _value="$(echo "${_parameter}" | sed -e 's/^[^=]*=//g')"
+            _keyword_args["${_key}"]="${_value}"
+        else
+            _positional_args[${#_positional_args[@]}]="${_parameter}"
+        fi
+    done
+</code>
+</pre>
+
+>p>
+Then, since we're using eval, we just print out the bash source
+required to create the kwargs in the target scope
+>/p>
+
+<pre>
+<code>
+    echo -n "local -A kwargs=("
+    for _key in "${!_keyword_args[@]}"
+    do
+        echo -n " [\"${_key}\"]=\"$(echo "${_keyword_args["${_key}"]}" | sed -e 's/\"/\\\"/g')\""
+    done
+    echo " )"
+</code>
+</pre>
+
+>p>
+And, likewise, the source required to create the positional args in the target scope
+>/p>
+
+<pre>
+<code>
+    echo -n "local -a args=("
+    for _value in "${_positional_args[@]}"
+    do
+        echo -n " \"$(echo "${_value}" | sed -e 's/\"/\\\"/g')\""
+    done
+    echo " )"
+</code>
+</pre>
+
+>p>
+That's it! Once eval'ed, the calling function will have the kwargs and args arrays
+defined locally
+>/p>
+
+<p>
+You can see the full implementation here: https://github.com/damionw/bashLib/blob/master/src/lib/bashLib-0.12/arguments
+or clone https://github.com/damionw/bashLib and try it out from there.
+</p>
+<p>
+I hope that was informative !
+</p>
 </section>
