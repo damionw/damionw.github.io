@@ -446,7 +446,180 @@ Other interests are cycling, <a href="http://www.sanshou.bm/">martial arts</a>, 
 </ul>
         </section>
 
-        <section id="2020-12-01" class="blog-entry">
+        <section id="2020-12-03" class="blog-entry">
+
+<a class="jumpto" name="2020-12-03"></a>
+
+<header class="post-header">
+    <span class="post-meta">
+        <time datetime="2020-12-03">
+            December 03, 2020
+        </time>
+    </span>
+    <h2 class="post-title">A Command Line Wrapper for Bash Applications</h2>
+</header>
+
+<header class="post-header">
+    <h3>The Problem</h3>
+</header>
+
+<p>
+Writing applications in Bash is considered ill advised by many. But why?
+</p>
+<p>
+Indeed, as the mother of scripting languages, it's lineage leads directly
+to lua, python, perl, ruby, etc. So why shouldn't decent programming practices
+yield reliable, well engineered solutions here too?
+</p>
+
+<p>
+Of course Bash supports this kind of use, despite the arcane syntax (still not worse
+than APL !). But writing something that offers a command line interface that's intuitive
+and fits in with Unix's 'building block' approach requires quite a bit of boiler plate
+</p>
+
+<header class="post-header">
+    <h3>Basic Treatment</h3>
+</header>
+
+<p>
+For those who don't know, getopt is a bash builtin that allows the specification and
+handling of command line options. You invoke it with a command line options specification
+and the list of command line options you want it to process, and it sets a shell variable
+with the processed options and their values
+</p>
+
+<pre>
+<code>
+#!/usr/bin/env bash
+
+OPTION_TEMP=$(getopt --options "-h" --longoptions "--help" -- "$@")
+eval set -- "$OPTION_TEMP" # Replace original options array
+
+while true
+do
+    case "$1" in
+        --help|-h)
+            echo "Show help message"
+            shift
+            ;;
+
+        --)
+            shift
+            break
+            ;;
+    esac
+done
+</code>
+</pre>
+
+<p>
+As you add options, the specification and the case statement get bigger. Also, there's no
+way to tie the option specs to descriptions...
+</p>
+
+<header class="post-header">
+    <h3>Optionslib</h3>
+</header>
+
+<p>
+After wrapping the behaviour in a basic, useful pattern and finding that I was duplicating
+the code (everywhere!), I faced the fact that it was time to make a generic implementation
+</p>
+
+<p>
+The resulting work lives here:
+<a href=https://github.com/damionw/optionslib>https://github.com/damionw/optionslib</a>
+<br>
+<br>
+It soon becomes quite clear that I've been (mal)affected by python argparse.
+</p>
+
+<header class="post-header">
+    <h4>Installation</h4>
+</header>
+
+<p>
+The makefile will install the package in /usr/local/bin and /usr/local/lib
+</p>
+
+<pre>
+<code>
+$ git clone https://github.com/damionw/optionslib
+$ cd optionslib
+$ make install
+</code>
+</pre>
+
+<header class="post-header">
+    <h4>Usage</h4>
+</header>
+
+<p>
+We can test it out with a simple bash script
+</p>
+
+<pre>
+<code>
+#!/usr/bin/env bash
+
+. $(optionslib --lib)
+
+logging_level=info
+
+optionslib::parse::description "This is a demo application"
+
+optionslib::parse::config "
+    long_options=--help short_options=-h action=show_help description='Display instructions'
+    long_options=--logging: action=store_var name=logging_level description='Set logging level'
+"
+
+if ! optionslib::parse::parse_arguments "$@"
+then
+    exit 255
+fi
+
+echo "Logging level = $logging_level"
+</code>
+</pre>
+
+<p>
+Saving this program as /tmp/optionsdemo and running it yields...
+</p>
+
+<pre>
+<code>
+$ /tmp/optionsdemo --help
+Usage: /tmp/optionsdemo [--help] [--logging=<logging>]
+
+This is a demo application
+
+    --help           Display instructions
+    --logging:       Set logging level
+
+$ /tmp/optionsdemo --logging=info
+
+Logging level = info
+</code>
+</pre>
+
+<header class="post-header">
+    <h3>Follow Up</h3>
+</header>
+
+<p>
+You're invited to experiment. Options are comma separated and the actions that optionslib::parse::config() knows about are:
+
+<ul>
+<li>store_var - stores values in the shell variable indicated by name
+<li>show_help - displays the help message and exits
+<li>command - runs the shell function indicated by name, passing the parameter value
+</ul>
+
+</p>
+
+</section>
+<section id="2020-12-01" class="blog-entry">
 
 <a class="jumpto" name="2020-12-01"></a>
 
