@@ -264,21 +264,30 @@ FLUBBER construction
 <header class="post-header">
     <h3>What Next?</h3>
 </header>
+
+<ul>
+<li>
 <p>
 As mentioned, there's no getopt parameter handling here, but there is a pattern
 (and a library) to handle that.
 </p>
+</li>
 
+<li>
 <p>
 Adding features to flubber now consists of changing or adding files in /usr/lib/flubber-0.01
 New versions should be exposed by renaming to or adding /usr/lib/flubber-0.0x
 </p>
+</li>
 
+<li>
 <p>
 Makefiles for existing applications can be augmented to place components into
 the appropriate directory layout and monolithic code blocks can then be reliably
 refactored into discrete components.
 </p>
+</li>
+</ul>
 
 <p>
 A representative example of this pattern, which is also the library providing getopt
