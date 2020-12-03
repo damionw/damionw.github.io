@@ -83,7 +83,7 @@
         .main > div:nth-of-type(1) {
             position: fixed;
             top: 0;
-            left: 130px;
+            left: 137px;
             right: 0px;
             padding: 20px;
             margin-top: 2px;
@@ -370,7 +370,8 @@
     <path d="M59.5508386,30 C59.5508386,46.5685433 46.3204783,60 30,60 C23.9471212,60 18.3192858,58.1525134 13.6339051,54.9827754 L47.4941264,5.81941103 C54.8060245,11.2806503 59.5508386,20.0777973 59.5508386,30 Z M59.5508386,30" id="reflec" fill-opacity="0.08" fill="#000000" sketch:type="MSShapeGroup"></path>
 </svg>
 </a>
-    </div>
+
+</div>
     <hr>
     <ul class="nobullets" id="choices">
     </ul>
@@ -390,7 +391,7 @@
         </h1>
 
         <h2 class="blog-description">
-            Programming in Bermuda ... and other stuff
+            Coding in Bermuda ... and other stuff
         </h2>
     </div>
 
